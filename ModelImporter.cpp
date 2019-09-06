@@ -55,7 +55,7 @@ Status importInput(ImporterContext* importer_ctx,
   ASSERT_INPUT(onnx_tensor_type.shape().dim().size() > 0,
          ErrorCode::kUNSUPPORTED_NODE, input.name());
   nvinfer1::Dims trt_dims;
-  TRT_CHECK(convert_dims(onnx_tensor_type.shape().dim(), trt_dims));
+  ASSERT_INPUT(convert_dims(onnx_tensor_type.shape().dim(), trt_dims), ErrorCode::kUNSUPPORTED_GRAPH, input.name() + "_TRT_DYNAMIC_SHAPES");
   nvinfer1::ITensor* user_input = importer_ctx->getUserInput(input.name().c_str());
   if( user_input ) {
     ASSERT_INPUT(user_input, ErrorCode::kINVALID_VALUE, input.name());
